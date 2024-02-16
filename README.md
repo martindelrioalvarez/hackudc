@@ -6,6 +6,14 @@
 <p>Created for our first HackUDC edition.</p>
 </div>
 
+## 🧞 Integrantes
+
+|     | Command          | Action                                        |
+| :-- | :--------------- | :-------------------------------------------- |
+| ⚙️  | `delri` | Martín Del Río Álvarez|
+| ⚙️  | `castro` | Iago Castro Álvarez|
+| ⚙️  | `sarita` | Sara García Currás|
+
 <div align="center">
     <a href="#" target="_blank">
         Preview
