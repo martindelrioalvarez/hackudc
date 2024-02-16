@@ -1,9 +1,9 @@
 <div align="center">
 <img src="Documents/hackudc.svg" height="50px" width="auto" /> 
 <h3>
- The ESLAND page re-imagined
+ HackUDC
 </h3>
-<p>Created for didactic and educational purposes.</p>
+<p>Created for our first HackUDC edition.</p>
 </div>
 
 <div align="center">
