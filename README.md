@@ -16,29 +16,11 @@
 | &#128100;  | `javivi` | Javier|
 
 <div align="center">
-    <a href="#" target="_blank">
-        Preview
-    </a>
-    <span>&nbsp;✦&nbsp;</span>
-    <a href="#-getting-started">
-        Getting Started
-    </a>
-    <span>&nbsp;✦&nbsp;</span>
-    <a href="#-commands">
-        Commands
-    </a>
-    <span>&nbsp;✦&nbsp;</span>
-    <a href="#-license">
-        License
-    </a>
     <span>&nbsp;✦&nbsp;</span>
     <a href="https://www.youtube.com/@talkingtigers">
         YouTube - Talking Tigers
     </a>
     <span>&nbsp;✦&nbsp;</span>
-    <a href="https://twitter.com/midudev">
-        Twitter
-    </a>
 </div>
 
 <p></p>
