@@ -23,8 +23,8 @@
         License
     </a>
     <span>&nbsp;✦&nbsp;</span>
-    <a href="https://www.youtube.com/c/midudev">
-        YouTube
+    <a href="https://www.youtube.com/@talkingtigers">
+        YouTube - Talking Tigers
     </a>
     <span>&nbsp;✦&nbsp;</span>
     <a href="https://twitter.com/midudev">
