@@ -6,15 +6,14 @@
 <p>Created for our first HackUDC edition.</p>
 </div>
 
-&#128100;
-
-## 🧞 Integrantes
+## &#128100; Integrantes
 
 |     | Mote          | Nombre                                        |
 | :-- | :--------------- | :-------------------------------------------- |
-| ⚙️  | `delri` | Martín Del Río Álvarez|
-| ⚙️  | `castro` | Iago Castro Álvarez|
-| ⚙️  | `sarita` | Sara García Currás|
+| &#128100;  | `delri` | Martín Del Río Álvarez|
+| &#128100;  | `castro` | Iago Castro Álvarez|
+| &#128100;  | `sarita` | Sara García Currás|
+| &#128100;  | `javivi` | Javier|
 
 <div align="center">
     <a href="#" target="_blank">
