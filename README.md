@@ -1,5 +1,5 @@
 <div align="center">
-<img src="public/hackudc.jpg" height="50px" width="auto" /> 
+<img src="public/hackudc.svg" height="50px" width="auto" /> 
 <h3>
  The ESLAND page re-imagined
 </h3>
