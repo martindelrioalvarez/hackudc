@@ -6,9 +6,11 @@
 <p>Created for our first HackUDC edition.</p>
 </div>
 
+&#128100;
+
 ## 🧞 Integrantes
 
-|     | Command          | Action                                        |
+|     | Mote          | Nombre                                        |
 | :-- | :--------------- | :-------------------------------------------- |
 | ⚙️  | `delri` | Martín Del Río Álvarez|
 | ⚙️  | `castro` | Iago Castro Álvarez|
