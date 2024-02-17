@@ -25,6 +25,13 @@
                     <label for="destination">Destino:</label>
                     <input type="text" id="destination" name="destination" required placeholder="Introduce la ciudad de destino" autocomplete="off">
                     <div id="destinationSuggestions" class="suggestions-container"></div>
+
+                    <!-- Campo de fecha de salida -->
+                    <div id="departure-date">
+                        <label for="departure-date">Fecha de Salida:</label>
+                        <input type="date" id="departure-date" name="departure-date" required>
+                    </div>
+
                     <button type="submit">Calcular Ruta y Huella de Carbono</button>
                 </fieldset>
             </form>
@@ -35,9 +42,6 @@
             <div id="carbon-footprint"></div>
         </section>
     </main>
-    <footer>
-        <p>Proyecto de Optimización de Viajes Sostenibles</p>
-    </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const addButton = document.getElementById('add-traveler');
@@ -83,9 +87,16 @@
                     fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${inputText}&apiKey=258dc386de524d2f96f96152852a5414`)
                         .then(response => response.json())
                         .then(data => {
-                            const suggestions = data.features.map(feature => feature.properties.formatted);
+                            const suggestions = data.features.map(feature => {
+                                // Aquí extraes solo el nombre de la ciudad, omitiendo el país y el código postal.
+                                const city = feature.properties.city || feature.properties.name; // Usa el nombre de la ciudad si está disponible, si no, usa el nombre general.
+                                return city;
+                            });
 
-                            suggestions.forEach(city => {
+                            // Elimina duplicados
+                            const uniqueSuggestions = Array.from(new Set(suggestions));
+
+                            uniqueSuggestions.forEach(city => {
                                 let div = document.createElement("div");
                                 div.innerHTML = city;
                                 div.onclick = function () {
