@@ -69,22 +69,31 @@ function App() {
   };
 
   const handleEmissionsCalculated = (index, emissions, fuelCost) => {
-    let newEmissionsData = [...emissionsData];
-    newEmissionsData[index] = emissions;
-    setEmissionsData(newEmissionsData);
-
-    let newCarFuelCosts = [...carFuelCosts];
-    newCarFuelCosts[index] = fuelCost;
-    setCarFuelCosts(newCarFuelCosts);
+    setEmissionsData(prevEmissionsData => {
+      const newEmissionsData = [...prevEmissionsData];
+      newEmissionsData[index] = emissions;
+      return newEmissionsData;
+    });
+  
+    setCarFuelCosts(prevCarFuelCosts => {
+      const newCarFuelCosts = [...prevCarFuelCosts];
+      newCarFuelCosts[index] = fuelCost;
+      return newCarFuelCosts;
+    });
   };
-
+  
   const handleFlightDataCalculated = (index, emissions, cost) => {
-    let newFlightCO2Emissions = [...flightCO2Emissions];
-    let newFlightCosts = [...flightCosts];
-    newFlightCO2Emissions[index] = emissions;
-    newFlightCosts[index] = cost;
-    setFlightCO2Emissions(newFlightCO2Emissions);
-    setFlightCosts(newFlightCosts);
+    setFlightCO2Emissions(prevFlightCO2Emissions => {
+      const newFlightCO2Emissions = [...prevFlightCO2Emissions];
+      newFlightCO2Emissions[index] = emissions;
+      return newFlightCO2Emissions;
+    });
+  
+    setFlightCosts(prevFlightCosts => {
+      const newFlightCosts = [...prevFlightCosts];
+      newFlightCosts[index] = cost;
+      return newFlightCosts;
+    });
   };
 
   const renderGreenTick = (carEmissions, flightEmissions) => {
