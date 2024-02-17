@@ -16,12 +16,16 @@
 
 ## &#128100; Integrantes
 
-|     | Mote          | Nombre                                        |
-| :-- | :--------------- | :-------------------------------------------- |
-| &#128100;  | `delri` | Martín Del Río Álvarez|
-| &#128100;  | `castro` | Iago Castro Álvarez|
-| &#128100;  | `sarita` | Sara García Currás|
-| &#128100;  | `javivi` | Javier Pérez Robles|
+
+
+|     | Mote          | Nombre                                        | Usuario | Redirección |
+| :-- | :--------------- | :-------------------------------------------- | :--------- | :------------ |
+| &#128100;  | `delri` | Martín Del Río Álvarez| delri | [@martindelrioalvarez](https://github.com/martindelrioalvarez) |
+| &#128100;  | `castro` | Iago Castro Álvarez| castro | [@castrooo4](https://github.com/castrooo4) |
+| &#128100;  | `sarita` | Sara García Currás| sarita | [@saragaarcia](https://github.com/saragaarcia) |
+| &#128100;  | `javivi` | Javier Pérez Robles| javivi | [@MiniX16](https://github.com/MiniX16) |
+
+
 
 ## ✅ Por hacer...
 
