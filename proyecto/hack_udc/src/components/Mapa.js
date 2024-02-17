@@ -1,41 +1,45 @@
 import React, { useEffect } from 'react';
 import L from 'leaflet';
+import 'leaflet-routing-machine';
 
 const Mapa = ({ from, to }) => {
   useEffect(() => {
-    let map = null;
+    let map = L.map('map').setView([to.lat, to.lng], 6);
 
-    if (from && to && !isNaN(from.lat) && !isNaN(from.lng) && !isNaN(to.lat) && !isNaN(to.lng)) {
-      map = L.map('map').setView([from.lat, from.lng], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-      }).addTo(map);
+    // Agregar marcador para el destino ('to')
+    L.marker([to.lat, to.lng]).addTo(map)
+      .bindPopup('Destino: ' + to.lat + ', ' + to.lng)
+      .openPopup();
 
-      // Agregar marcadores para 'from' y 'to'
-      L.marker([from.lat, from.lng]).addTo(map)
-        .bindPopup('From: ' + from.lat + ', ' + from.lng)
-        .openPopup();
+    // Asegurarse de que 'from' es un arreglo y tiene elementos
+    if (Array.isArray(from) && from.length > 0) {
+      // Iterar sobre cada punto de partida
+      from.forEach(fromCoord => {
+        if (fromCoord && !isNaN(fromCoord.lat) && !isNaN(fromCoord.lng)) {
+          // Agregar marcador para este punto de partida
+          L.marker([fromCoord.lat, fromCoord.lng]).addTo(map)
+            .bindPopup('Partida: ' + fromCoord.lat + ', ' + fromCoord.lng)
+            .openPopup();
 
-      L.marker([to.lat, to.lng]).addTo(map)
-        .bindPopup('To: ' + to.lat + ', ' + to.lng)
-        .openPopup();
-      
-      // Dibujar una línea recta entre 'from' y 'to'
-      L.polyline([
-        [from.lat, from.lng],
-        [to.lat, to.lng]
-      ], {
-        color: 'red', // Puedes cambiar el color de la línea aquí
-        weight: 4, // Puedes cambiar el grosor de la línea aquí
-        opacity: 0.5 // Puedes cambiar la opacidad de la línea aquí
-      }).addTo(map);
-      
-      // Centrar el mapa para que muestre ambos marcadores
-      map.fitBounds([
-        [from.lat, from.lng],
-        [to.lat, to.lng]
-      ]);
+          // Dibujar una línea desde este punto de partida hasta el destino
+          L.polyline([
+            [fromCoord.lat, fromCoord.lng],
+            [to.lat, to.lng]
+          ], {
+            color: 'red', // Puedes cambiar el color de la línea aquí
+            weight: 4, // Puedes cambiar el grosor de la línea aquí
+            opacity: 0.5 // Puedes cambiar la opacidad de la línea aquí
+          }).addTo(map);
+        }
+      });
+
+      // Centrar el mapa para mostrar todos los marcadores
+      let group = new L.featureGroup([L.marker([to.lat, to.lng])].concat(from.map(fromCoord => L.marker([fromCoord.lat, fromCoord.lng]))));
+      map.fitBounds(group.getBounds().pad(0.5)); // Ajustar el zoom para incluir todos los marcadores con un poco de padding
     }
 
     return () => {

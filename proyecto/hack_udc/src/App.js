@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import Mapa from './components/Mapa'; // Asegúrate de que la ruta sea correcta
+import React, { useState, useEffect } from 'react';
+import Mapa from './components/Mapa';
 import KiwiService from './components/kiwiService';
 import CarEmissionsCalculator from './components/carEmisionsCalculator';
+import './App.css';
 
 const fetchCoordinates = async (cityName) => {
-  // Agregar la palabra 'aeropuerto' para enfocar la búsqueda en aeropuertos de la ciudad
-  const searchTerm = `${encodeURIComponent(cityName)}`;
+  const searchTerm = `${encodeURIComponent(cityName)} aeropuerto`;
   const url = `https://nominatim.openstreetmap.org/search?q=${searchTerm}&format=json&limit=1`;
 
   try {
@@ -22,55 +22,107 @@ const fetchCoordinates = async (cityName) => {
   }
 };
 
-
 function App() {
-  const [from, setFrom] = useState(null);
-  const [to, setTo] = useState(null);
-  const [fromCity, setFromCity] = useState('');
-  const [toCity, setToCity] = useState('');
+  const [fromCities, setFromCities] = useState(['']); // Mantiene un arreglo de ciudades de partida
+  const [toCity, setToCity] = useState(''); // Ciudad de destino única
+  const [departureDate, setDepartureDate] = useState(''); // Fecha de salida única
   const [showMap, setShowMap] = useState(false);
+  const [coordinates, setCoordinates] = useState({from: [], to: null});
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const fromCoords = await fetchCoordinates(fromCity);
-    const toCoords = await fetchCoordinates(toCity);
-    if (fromCoords && toCoords) {
-      setFrom(fromCoords);
-      setTo(toCoords);
-      setShowMap(true); 
-    } else {
-      alert("No se pudieron encontrar las coordenadas de una o ambas ciudades.");
+  useEffect(() => {
+    const fetchCoordinatesForFromCities = async () => {
+      const fromCoordsPromises = fromCities.map(city => fetchCoordinates(city));
+      const fromCoords = await Promise.all(fromCoordsPromises);
+
+      const toCoords = await fetchCoordinates(toCity);
+
+      setCoordinates({ from: fromCoords.filter(coord => coord !== null), to: toCoords });
+    };
+
+    if (showMap && toCity) {
+      fetchCoordinatesForFromCities();
     }
+  }, [showMap, fromCities, toCity]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setShowMap(true);
   };
 
-  const handleFromChange = (e) => {
-    setFromCity(e.target.value);
+  const handleFromCityChange = (index, value) => {
+    const newFromCities = [...fromCities];
+    newFromCities[index] = value;
+    setFromCities(newFromCities);
   };
 
-  const handleToChange = (e) => {
-    setToCity(e.target.value);
+  const incrementFromCity = () => {
+    setFromCities([...fromCities, '']);
+  };
+
+  const decrementFromCity = () => {
+    if (fromCities.length > 1) {
+      setFromCities(fromCities.slice(0, -1));
+    }
   };
 
   return (
     <div className="App">
-      <h1>My React App with OpenStreetMap</h1>
-      <input
-        type="text"
-        placeholder="City of Start"
-        value={fromCity}
-        onChange={handleFromChange}
-      />
-      <input
-        type="text"
-        placeholder="City of End"
-        value={toCity}
-        onChange={handleToChange}
-      />
-      <button onClick={handleSubmit}>Enviar</button>
-      {showMap && <Mapa from={from} to={to} />}
-      {showMap && <KiwiService fromCity={fromCity} toCity={toCity} departureDate="2024-02-20" />}
-      {showMap && <CarEmissionsCalculator from={from} to={to} />}
-      
+      <header>
+        <h1>My React App with OpenStreetMap</h1>
+      </header>
+      <main>
+        <form onSubmit={handleSubmit}>
+          <fieldset>
+            <legend>Detalles del Viaje</legend>
+            {fromCities.map((city, index) => (
+              <label key={index}>
+                Ciudad de Partida {index + 1}:
+                <input
+                  type="text"
+                  placeholder="Ciudad de inicio"
+                  value={city}
+                  onChange={(e) => handleFromCityChange(index, e.target.value)}
+                />
+              </label>
+            ))}
+            <label>
+              Ciudad de Destino:
+              <input
+                type="text"
+                placeholder="Ciudad de destino"
+                value={toCity}
+                onChange={(e) => setToCity(e.target.value)}
+              />
+            </label>
+            <label htmlFor="departure-date">Fecha de Salida:</label>
+            <input
+              type="date"
+              id="departure-date"
+              name="departure-date"
+              value={departureDate}
+              onChange={(e) => setDepartureDate(e.target.value)}
+              required
+            />
+          </fieldset>
+          <div className="trip-counter">
+            <button type="button" onClick={decrementFromCity}>-</button>
+            <span> Número de Viajeros: {fromCities.length} </span>
+            <button type="button" onClick={incrementFromCity}>+</button>
+          </div>
+          <button type="submit">Enviar</button>
+        </form>
+        {showMap && coordinates.to && (
+          <Mapa from={coordinates.from} to={coordinates.to} />
+        )}
+        {showMap && coordinates.from.length > 0 && coordinates.to && (
+          fromCities.map((city, index) => (
+            <React.Fragment key={index}>
+              <KiwiService fromCity={city} toCity={toCity} departureDate={departureDate} />
+              <CarEmissionsCalculator from={coordinates.from[index]} to={coordinates.to} />
+            </React.Fragment>
+          ))
+        )}
+      </main>
     </div>
   );
 }
