@@ -80,6 +80,16 @@ function App() {
     //console.log('plane emissions: ' + co2Emission);
   };
 
+  const renderGreenTick = (carEmissions, flightEmissions) => {
+    if (carEmissions < flightEmissions) {
+      return <span>🚗✅</span>;
+    } else if (flightEmissions < carEmissions) {
+      return <span>✈️✅</span>;
+    }
+    // En caso de que sean iguales, podrías decidir mostrar algo específico o nada
+    return <span>🚗✈️</span>; // Ambos igualmente eficientes
+  };
+
   return (
     <div className="App">
       <header>
@@ -145,6 +155,9 @@ function App() {
                   to={coordinates.to}
                   onEmissionsCalculated={(emissions) => handleEmissionsCalculated(index, emissions)}
                 />
+                <div>
+                {renderGreenTick(emissionsData[index] || 0, flightCO2Emissions[index] || 0)}
+                </div>
               </div>
             </div>
           ))
