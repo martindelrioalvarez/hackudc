@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const CarEmissionsCalculator = ({ from, to, onEmissionsCalculated }) => {
   const [emissions, setEmissions] = useState(0);
 
   useEffect(() => {
-    const fetchRouteAndCalculateEmissions = async () => {
-      const hereApiKey = 'C2m9y5mTC7gVdbUhX6LOGvz34yc6gk8P7hSM3974TU4';
-      const fromCoord = `${from.lat},${from.lng}`;
-      const toCoord = `${to.lat},${to.lng}`;
-      const url = `https://router.hereapi.com/v8/routes?transportMode=car&origin=${fromCoord}&destination=${toCoord}&return=summary&apiKey=${hereApiKey}`;
+    const calculateEmissions = () => {
+      const radiusOfEarthInKm = 6371; // Radio de la Tierra en kilómetros
+      const deltaLatRadians = toRadians(to.lat - from.lat);
+      const deltaLonRadians = toRadians(to.lng - from.lng);
+      const a =
+        Math.sin(deltaLatRadians / 2) * Math.sin(deltaLatRadians / 2) +
+        Math.cos(toRadians(from.lat)) * Math.cos(toRadians(to.lat)) *
+        Math.sin(deltaLonRadians / 2) * Math.sin(deltaLonRadians / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distanceInKm = radiusOfEarthInKm * c;
 
-      try {
-        const response = await axios.get(url);
-        const distanceInKm = response.data.routes[0].sections[0].summary.length / 1000;
-        const emissionsCalculated = (distanceInKm * 120) / 1000;
-        setEmissions(emissionsCalculated);
-        onEmissionsCalculated(emissionsCalculated); // Notificar al componente padre
-      } catch (error) {
-        console.error('Error fetching route from Here API:', error);
-        setEmissions(0);
-      }
+      // Suponiendo 120g CO2 por km, convertimos a kg para la distancia total
+      const emissionsCalculated = (distanceInKm * 120) / 1000;
+      setEmissions(emissionsCalculated);
+      onEmissionsCalculated(emissionsCalculated); // Notificar al componente padre
     };
 
-    fetchRouteAndCalculateEmissions();
+    const toRadians = (degrees) => {
+      return degrees * (Math.PI / 180);
+    };
+
+    calculateEmissions();
   }, [from, to, onEmissionsCalculated]);
 
   return (

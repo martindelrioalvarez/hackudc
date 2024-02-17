@@ -81,13 +81,16 @@ function App() {
   };
 
   const renderGreenTick = (carEmissions, flightEmissions) => {
+    if (carEmissions === 0 || flightEmissions === 0) {
+      return null; // No muestra ningún icono si alguna de las emisiones es 0
+    }
+    
     if (carEmissions < flightEmissions) {
       return <span>🚗✅</span>;
     } else if (flightEmissions < carEmissions) {
       return <span>✈️✅</span>;
     }
-    // En caso de que sean iguales, podrías decidir mostrar algo específico o nada
-    return <span>🚗✈️</span>; // Ambos igualmente eficientes
+    return null; // Podría decidir no mostrar nada si las emisiones son iguales
   };
 
   return (
@@ -156,8 +159,9 @@ function App() {
                   onEmissionsCalculated={(emissions) => handleEmissionsCalculated(index, emissions)}
                 />
                 <div>
-                {renderGreenTick(emissionsData[index] || 0, flightCO2Emissions[index] || 0)}
-                </div>
+                  {emissionsData[index] !== undefined && flightCO2Emissions[index] !== undefined ?
+                  renderGreenTick(emissionsData[index], flightCO2Emissions[index]) : null}
+              </div>
               </div>
             </div>
           ))
