@@ -1,5 +1,11 @@
 {
   "dependencies": {
-    "leaflet": "^1.9.4"
+    "axios": "^1.6.7",
+    "leaflet": "^1.9.4",
+    "leaflet-routing-machine": "^3.2.12",
+    "react-leaflet": "^4.2.1"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
