@@ -34,19 +34,7 @@ const Mapa = ({ from, to }) => {
           }).addTo(map);
 
           // Calcular y mostrar la ruta en coche
-          const route = L.Routing.control({
-            waypoints: [
-              L.latLng(fromCoord.lat, fromCoord.lng),
-              L.latLng(to.lat, to.lng)
-            ],
-            routeWhileDragging: true,
-            show: false, // No mostrar automáticamente las instrucciones de la ruta
-            addWaypoints: false, // No permitir añadir más waypoints
-            lineOptions: {
-              styles: [{color: 'blue', opacity: 0.6, weight: 4}] // Estilos de la línea de la ruta
-            },
-            createMarker: function() { return null; } // No crear marcadores adicionales
-          });
+
         }
       });
 

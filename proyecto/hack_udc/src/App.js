@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import Mapa from './components/Mapa';
 import './App.css';
 import useFetchCoordinatesForCities from './hooks/useFetchCoordinates'
@@ -97,7 +97,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>My Ecofriendly Traveler</h1>
+        <h1>Ecofriendly Traveler</h1>
       </header>
       <main>
         <TravelDetailsForm 
