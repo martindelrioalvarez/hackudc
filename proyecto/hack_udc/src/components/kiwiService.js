@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const KiwiService = ({ fromCity, toCity, departureDate }) => {
+const KiwiService = ({ fromCity, toCity, departureDate, onCO2Calculated }) => {
   const [bestFlight, setBestFlight] = useState(null);
   const [error, setError] = useState('');
 
@@ -103,6 +103,7 @@ const KiwiService = ({ fromCity, toCity, departureDate }) => {
         const bestFlight = flightsWithCO2.reduce((prev, current) => (prev.co2Emission < current.co2Emission ? prev : current));
 
         setBestFlight(bestFlight);
+        onCO2Calculated(bestFlight.co2Emission);
       } else {
         setBestFlight(null);
       }

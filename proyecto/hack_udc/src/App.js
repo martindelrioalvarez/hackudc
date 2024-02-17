@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Mapa from './components/Mapa';
 import KiwiService from './components/kiwiService';
-import CarEmissionsCalculator from './components/carEmisionsCalculator';
+import CarEmissionsCalculator from './components/carEmissionsCalculator';
 import './App.css';
 
 const fetchCoordinates = async (cityName) => {
@@ -23,17 +23,18 @@ const fetchCoordinates = async (cityName) => {
 };
 
 function App() {
-  const [fromCities, setFromCities] = useState(['']); // Mantiene un arreglo de ciudades de partida
-  const [toCity, setToCity] = useState(''); // Ciudad de destino única
-  const [departureDate, setDepartureDate] = useState(''); // Fecha de salida única
+  const [fromCities, setFromCities] = useState(['']);
+  const [toCity, setToCity] = useState('');
+  const [departureDate, setDepartureDate] = useState('');
   const [showMap, setShowMap] = useState(false);
-  const [coordinates, setCoordinates] = useState({from: [], to: null});
+  const [coordinates, setCoordinates] = useState({ from: [], to: null });
+  const [emissionsData, setEmissionsData] = useState([]);
+  const [flightCO2Emissions, setFlightCO2Emissions] = useState([]);
 
   useEffect(() => {
     const fetchCoordinatesForFromCities = async () => {
       const fromCoordsPromises = fromCities.map(city => fetchCoordinates(city));
       const fromCoords = await Promise.all(fromCoordsPromises);
-
       const toCoords = await fetchCoordinates(toCity);
 
       setCoordinates({ from: fromCoords.filter(coord => coord !== null), to: toCoords });
@@ -63,6 +64,20 @@ function App() {
     if (fromCities.length > 1) {
       setFromCities(fromCities.slice(0, -1));
     }
+  };
+
+  const handleEmissionsCalculated = (index, emissions) => {
+    let newEmissionsData = [...emissionsData];
+    newEmissionsData[index] = emissions;
+    setEmissionsData(newEmissionsData);
+    //console.log('car emissions: ' + emissions);
+  };
+
+  const handleFlightCO2Calculated = (index, co2Emission) => {
+    let newFlightCO2Emissions = [...flightCO2Emissions];
+    newFlightCO2Emissions[index] = co2Emission;
+    setFlightCO2Emissions(newFlightCO2Emissions);
+    //console.log('plane emissions: ' + co2Emission);
   };
 
   return (
@@ -119,8 +134,17 @@ function App() {
             <div key={index} className="traveler-info-container">
               <h2 className="traveler-title">Viajero {index + 1}</h2>
               <div className="traveler-row">
-                <KiwiService fromCity={city} toCity={toCity} departureDate={departureDate} />
-                <CarEmissionsCalculator from={coordinates.from[index]} to={coordinates.to} />
+                <KiwiService
+                  fromCity={city}
+                  toCity={toCity}
+                  departureDate={departureDate}
+                  onCO2Calculated={(co2Emission) => handleFlightCO2Calculated(index, co2Emission)}
+                />
+                <CarEmissionsCalculator
+                  from={coordinates.from[index]}
+                  to={coordinates.to}
+                  onEmissionsCalculated={(emissions) => handleEmissionsCalculated(index, emissions)}
+                />
               </div>
             </div>
           ))

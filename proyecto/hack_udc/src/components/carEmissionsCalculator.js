@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const CarEmissionsCalculator = ({ from, to }) => {
+const CarEmissionsCalculator = ({ from, to, onEmissionsCalculated }) => {
   const [emissions, setEmissions] = useState(0);
 
   useEffect(() => {
@@ -13,19 +13,18 @@ const CarEmissionsCalculator = ({ from, to }) => {
 
       try {
         const response = await axios.get(url);
-        // La API de Here devuelve la distancia en metros, convertimos a kilómetros
         const distanceInKm = response.data.routes[0].sections[0].summary.length / 1000;
-        // Suponiendo 120g CO2 por km, convertimos a kg para la distancia total
-        const emissions = (distanceInKm * 120) / 1000;
-        setEmissions(emissions);
+        const emissionsCalculated = (distanceInKm * 120) / 1000;
+        setEmissions(emissionsCalculated);
+        onEmissionsCalculated(emissionsCalculated); // Notificar al componente padre
       } catch (error) {
         console.error('Error fetching route from Here API:', error);
-        setEmissions(0); // Resetear emisiones en caso de error
+        setEmissions(0);
       }
     };
 
     fetchRouteAndCalculateEmissions();
-  }, [from, to]);
+  }, [from, to, onEmissionsCalculated]);
 
   return (
     <div>
