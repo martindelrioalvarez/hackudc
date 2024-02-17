@@ -1,0 +1,150 @@
+:root {
+  --colorA: #77C8C0;
+  --colorAA: #267AAC;
+  --colorB: #4AD7B8;
+  --colorBB: #f39c12;
+  --border-radius: 8px;
+  --box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  --text-color: #2c3e50;
+  --background-color: #ffffff;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+@keyframes gradientAnimation {
+  0%, 100% {
+    background: linear-gradient(135deg, var(--colorA) 0%, var(--colorAA) 100%);
+  }
+  25%, 75% {
+    background: linear-gradient(135deg, var(--colorB) 0%, var(--colorBB) 100%);
+  }
+}
+
+header {
+  background-size: 400% 400%;
+  animation: gradientAnimation 8s ease-in-out infinite;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+main {
+  padding: 20px;
+}
+
+fieldset {
+  border: 2px solid #007BFF;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+legend {
+  color: #007BFF;
+  font-size: 1.2em;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input[type="text"],
+input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+input[type="date"]:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0,123,255,.5);
+}
+
+button {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button[type="submit"] {
+  display: block;
+  width: 100%;
+}
+
+.traveler-info-container {
+  margin-bottom: 50px;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.traveler-title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.traveler-row {
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.flight-info,
+.car-emissions {
+  flex-basis: calc(50% - 15px);
+  padding: 20px;
+  background: linear-gradient(135deg, var(--colorA) 0%, var(--colorAA) 100%);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  color: var(--text-color);
+}
+
+.flight-info:hover,
+.car-emissions:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow);
+}
+
+.traveler-row h2, .traveler-row h3 {
+  color: var(--text-color);
+  font-size: 1.5rem;
+}
+
+.traveler-row p {
+  color: var(--text-color);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .traveler-row {
+    flex-direction: column;
+  }
+
+  .flight-info,
+  .car-emissions {
+    flex-basis: auto;
+  }
+}
