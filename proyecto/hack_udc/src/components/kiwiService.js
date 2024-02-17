@@ -103,7 +103,7 @@ const KiwiService = ({ fromCity, toCity, departureDate, onCO2Calculated }) => {
         const bestFlight = flightsWithCO2.reduce((prev, current) => (prev.co2Emission < current.co2Emission ? prev : current));
 
         setBestFlight(bestFlight);
-        onCO2Calculated(bestFlight.co2Emission);
+        onCO2Calculated(bestFlight.co2Emission, bestFlight.price.total);
       } else {
         setBestFlight(null);
       }

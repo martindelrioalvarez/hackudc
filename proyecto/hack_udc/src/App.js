@@ -30,6 +30,8 @@ function App() {
   const [coordinates, setCoordinates] = useState({ from: [], to: null });
   const [emissionsData, setEmissionsData] = useState([]);
   const [flightCO2Emissions, setFlightCO2Emissions] = useState([]);
+  const [carFuelCosts, setCarFuelCosts] = useState([]);
+  const [flightCosts, setFlightCosts] = useState([]);
 
   useEffect(() => {
     const fetchCoordinatesForFromCities = async () => {
@@ -66,18 +68,23 @@ function App() {
     }
   };
 
-  const handleEmissionsCalculated = (index, emissions) => {
+  const handleEmissionsCalculated = (index, emissions, fuelCost) => {
     let newEmissionsData = [...emissionsData];
     newEmissionsData[index] = emissions;
     setEmissionsData(newEmissionsData);
-    //console.log('car emissions: ' + emissions);
+
+    let newCarFuelCosts = [...carFuelCosts];
+    newCarFuelCosts[index] = fuelCost;
+    setCarFuelCosts(newCarFuelCosts);
   };
 
-  const handleFlightCO2Calculated = (index, co2Emission) => {
+  const handleFlightDataCalculated = (index, emissions, cost) => {
     let newFlightCO2Emissions = [...flightCO2Emissions];
-    newFlightCO2Emissions[index] = co2Emission;
+    let newFlightCosts = [...flightCosts];
+    newFlightCO2Emissions[index] = emissions;
+    newFlightCosts[index] = cost;
     setFlightCO2Emissions(newFlightCO2Emissions);
-    //console.log('plane emissions: ' + co2Emission);
+    setFlightCosts(newFlightCosts);
   };
 
   const renderGreenTick = (carEmissions, flightEmissions) => {
@@ -86,11 +93,20 @@ function App() {
     }
     
     if (carEmissions < flightEmissions) {
-      return <span>🚗✅</span>;
+      return <span>🚗🍃</span>;
     } else if (flightEmissions < carEmissions) {
-      return <span>✈️✅</span>;
+      return <span>✈️🍃</span>;
     }
     return null; // Podría decidir no mostrar nada si las emisiones son iguales
+  };
+
+  const renderCostComparisonIcon = (carCost, flightCost) => {
+    console.log('car:' + carCost);
+    console.log('flight:' + flightCost);
+    if (!carCost || !flightCost || carCost === 0 || flightCost === 0) {
+      return null; // No muestra ningún icono si alguno de los costos es 0 o no está definido
+    }
+    return carCost < flightCost ? <span>🚗💰</span> : <span>✈️💰</span>;
   };
 
   return (
@@ -151,17 +167,20 @@ function App() {
                   fromCity={city}
                   toCity={toCity}
                   departureDate={departureDate}
-                  onCO2Calculated={(co2Emission) => handleFlightCO2Calculated(index, co2Emission)}
+                  onCO2Calculated={(co2Emission, cost) => handleFlightDataCalculated(index, co2Emission, cost)}
                 />
                 <CarEmissionsCalculator
                   from={coordinates.from[index]}
                   to={coordinates.to}
-                  onEmissionsCalculated={(emissions) => handleEmissionsCalculated(index, emissions)}
+                  onEmissionsCalculated={(emissions, cost) => handleEmissionsCalculated(index, emissions, cost)}
                 />
                 <div>
                   {emissionsData[index] !== undefined && flightCO2Emissions[index] !== undefined ?
                   renderGreenTick(emissionsData[index], flightCO2Emissions[index]) : null}
-              </div>
+                </div>
+                <div>
+                  {renderCostComparisonIcon(carFuelCosts[index], flightCosts[index])}
+                </div>
               </div>
             </div>
           ))
