@@ -21,7 +21,7 @@
 | &#128100;  | `delri` | Martín Del Río Álvarez|
 | &#128100;  | `castro` | Iago Castro Álvarez|
 | &#128100;  | `sarita` | Sara García Currás|
-| &#128100;  | `javivi` | Javier|
+| &#128100;  | `javivi` | Javier Pérez Robles|
 
 ## ✅ Por hacer...
 
