@@ -27,15 +27,6 @@
 
 
 
-## ✅ Por hacer...
-
-- [ ] Acabar de poner bonito el GitHub
-
-Por supuesto, aquí tienes una versión actualizada del README con los comandos necesarios para inicializar la aplicación y enlaces a la documentación de cada API:
-
----
-
-
 ## Tecnologías Utilizadas
 
 - **React**: Utilizamos React para construir la interfaz de usuario de nuestra aplicación. React es una biblioteca de JavaScript de código abierto que nos permite crear componentes reutilizables y gestionar el estado de la aplicación de manera eficiente. Puedes encontrar la documentación [aquí](https://es.react.dev/learn)
