@@ -68,7 +68,7 @@ function App() {
   return (
     <div className="App">
       <header>
-        <h1>My React App with OpenStreetMap</h1>
+        <h1>My Ecofriendly Traveler</h1>
       </header>
       <main>
         <form onSubmit={handleSubmit}>
@@ -116,10 +116,13 @@ function App() {
         )}
         {showMap && coordinates.from.length > 0 && coordinates.to && (
           fromCities.map((city, index) => (
-            <React.Fragment key={index}>
-              <KiwiService fromCity={city} toCity={toCity} departureDate={departureDate} />
-              <CarEmissionsCalculator from={coordinates.from[index]} to={coordinates.to} />
-            </React.Fragment>
+            <div key={index} className="traveler-info-container">
+              <h2 className="traveler-title">Viajero {index + 1}</h2>
+              <div className="traveler-row">
+                <KiwiService fromCity={city} toCity={toCity} departureDate={departureDate} />
+                <CarEmissionsCalculator from={coordinates.from[index]} to={coordinates.to} />
+              </div>
+            </div>
           ))
         )}
       </main>
