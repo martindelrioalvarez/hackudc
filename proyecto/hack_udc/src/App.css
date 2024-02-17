@@ -148,3 +148,10 @@ button[type="submit"] {
     flex-basis: auto;
   }
 }
+
+
+.icon {
+  width: 34px;
+  height: 34px;
+}
+
